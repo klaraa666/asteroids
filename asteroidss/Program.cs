@@ -62,9 +62,15 @@ namespace asteroidss
                     {
                         for (int i = 0; i < bullets.Length; i++)
                         {
-                            if (!bullets[i]?.active ?? 1)
+
+                            if (!bullets[i].active) // Check if bullet has been shot
                                 continue;
-                            buf += "  I  ";
+                            if(x == bullets[i].x && y == bullets[i].y)
+                            {
+
+                                buf += "  I  ";
+                                drawn = true;
+                            }
                         }
                     }
                     if (!drawn)
@@ -83,12 +89,18 @@ namespace asteroidss
             byte[] result_up = BitConverter.GetBytes(GetAsyncKeyState(VK_UP));
             byte[] result_left = BitConverter.GetBytes(GetAsyncKeyState(VK_LEFT)); // Enter
 
-
-
             if (result_up[0] == 1) //Kollar om knappen tryckts ner sedan den kollade sist
             {
+                for(int i = 0; i < bullets.Length; i++)
+                {
+                    if (bullets[i].active)
+                        continue;
+                    bullets[i].active = true;
+                    bullets[i].x = player.x;
+                    bullets[i].y = player.y - 1;
+                    break;
+                }
                 update = true;
-
             }
 
             if (result_right[0] == 1)
@@ -112,11 +124,23 @@ namespace asteroidss
 
         static void Main(string[] args)
         {
+            for (int i = 0; i < bullets.Length; i++) // initializing all the objects with the data we want.
+            {
+                bullets[i] = new bullet();
+            }
             while (true)
             {
                 keyPresses();
                 print();
                 System.Threading.Thread.Sleep(50);
+                for(int i = 0; i < bullets.Length; i++)
+                {
+                    if (!bullets[i].active) continue;
+                    bullets[i].y -= 1;
+                    update = true;
+                    if (bullets[i].y < 0)
+                        bullets[i].active = false;
+                }
             }
         }
     }
