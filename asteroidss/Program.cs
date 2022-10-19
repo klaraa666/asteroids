@@ -10,12 +10,13 @@ namespace asteroidss
     class asteroids
     {
         public int x, y;        // generationsplats
+        public bool bActive = false;
         public int speed;
     }
 
     class bullet
     {
-        public bool active = false;
+        public bool bActive = false;
         public int time = 0;
         public int x, y;
     }
@@ -36,6 +37,8 @@ namespace asteroidss
         static players player = new players();
 
         static bullet[] bullets = new bullet[16];
+
+        static asteroids[] asteroid = new asteroids[16];
 
         static bool update = true;
 
@@ -60,10 +63,24 @@ namespace asteroidss
 
                     if (!drawn)
                     {
+                        for (int i = 0; i < asteroid.Length; i++)
+                        {
+                            if (!asteroid[i].bActive) // Check if bullet has been shot
+                                continue;
+                            if (x == asteroid[i].x && y == asteroid[i].y)
+                            {
+                                buf += "  M  ";
+                                drawn = true;
+                            }
+                        }
+                    }
+
+                    if (!drawn)
+                    {
                         for (int i = 0; i < bullets.Length; i++)
                         {
 
-                            if (!bullets[i].active) // Check if bullet has been shot
+                            if (!bullets[i].bActive) // Check if bullet has been shot
                                 continue;
                             if(x == bullets[i].x && y == bullets[i].y)
                             {
@@ -83,6 +100,27 @@ namespace asteroidss
             update = false;
         }
 
+        static void asteroid_gen()
+        {
+            Random rnd = new Random();
+            int placeholder = rnd.Next(0, 10);
+
+            if (!(placeholder <= 3)) // 30% chance of asteroid spawning
+                return;
+            for(int i = 0; i < asteroid.Length; i++)
+            {
+                if (asteroid[i].bActive)
+                    continue;
+                placeholder = rnd.Next(0, 10);
+                asteroid[i].x = placeholder;
+                asteroid[i].y = 0;
+                asteroid[i].bActive = true;
+                update = true;
+                break;
+            }
+            return;
+        }
+
         static void keyPresses()
         {
             byte[] result_right = BitConverter.GetBytes(GetAsyncKeyState(VK_RIGHT)); // Nödvändigt enligt då när man trycker en tangent representeras det som 0000, beroende på vad du trycker kan det vara, 0010, 1011, 1001.
@@ -93,9 +131,9 @@ namespace asteroidss
             {
                 for(int i = 0; i < bullets.Length; i++)
                 {
-                    if (bullets[i].active)
+                    if (bullets[i].bActive)
                         continue;
-                    bullets[i].active = true;
+                    bullets[i].bActive = true;
                     bullets[i].x = player.x;
                     bullets[i].y = player.y - 1;
                     break;
@@ -122,24 +160,46 @@ namespace asteroidss
 
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             for (int i = 0; i < bullets.Length; i++) // initializing all the objects with the data we want.
             {
                 bullets[i] = new bullet();
+                asteroid[i] = new asteroids();
             }
+            int even = 0;
             while (true)
             {
                 keyPresses();
+                if(even % 4 == 0)asteroid_gen();
                 print();
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(10);
+                even++;
                 for(int i = 0; i < bullets.Length; i++)
                 {
-                    if (!bullets[i].active) continue;
-                    bullets[i].y -= 1;
+                    for (int op = 0; op < asteroid.Length; op++)
+                    {
+                        if (!bullets[i].bActive || !asteroid[op].bActive) continue;
+                        if (bullets[i].x == asteroid[op].x && bullets[i].y <= asteroid[op].y)
+                        {
+                            bullets[i].bActive = false;
+                            asteroid[op].bActive = false;
+                        }
+                    }
+                    
+
+                    if (bullets[i].bActive) bullets[i].y -= 1;
+                    if (asteroid[i].bActive && (even % 4 == 0)) asteroid[i].y += 1;
                     update = true;
                     if (bullets[i].y < 0)
-                        bullets[i].active = false;
+                        bullets[i].bActive = false;
+                    if (asteroid[i].y > 16)
+                    {
+                        asteroid[i].bActive = false;
+                        Console.WriteLine("You Lost!");
+                        return 0;
+                    }
+                        
                 }
             }
         }
