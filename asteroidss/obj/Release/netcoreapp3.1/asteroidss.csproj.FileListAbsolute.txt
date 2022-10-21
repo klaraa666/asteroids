@@ -1,0 +1,13 @@
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.exe
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.deps.json
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.runtimeconfig.json
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.runtimeconfig.dev.json
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.dll
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\bin\Release\netcoreapp3.1\asteroidss.pdb
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.csprojAssemblyReference.cache
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.AssemblyInfoInputs.cache
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.AssemblyInfo.cs
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.csproj.CoreCompileInputs.cache
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.dll
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.pdb
+C:\Users\jack.rosandertangen\Desktop\asteroids-master\asteroidss\obj\Release\netcoreapp3.1\asteroidss.genruntimeconfig.cache

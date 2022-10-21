@@ -20,6 +20,7 @@ namespace asteroidss
         public int time = 0;
         public int x, y;
     }
+    
 
     class Program
     {
@@ -40,8 +41,12 @@ namespace asteroidss
 
         static asteroids[] asteroid = new asteroids[16];
 
+        static string path = System.AppDomain.CurrentDomain.BaseDirectory;
+
         static bool update = true;
 
+        static int score = 0;
+        static int lives = 3;
 
         static void print()
         {
@@ -92,8 +97,21 @@ namespace asteroidss
                     }
                     if (!drawn)
                         buf += "     ";
+
                 }
-                buf += "  | \n";
+
+                switch (y)
+                {
+                    case 3:
+                        buf += "  |      SCORE : " + score + "\n";
+                        break;
+                    case 4:
+                        buf += "  |      LIVES : " + lives + "\n";
+                        break;
+                    default:
+                        buf += "  | \n";
+                        break;
+                }
             }
             Console.Clear();
             Console.WriteLine(buf);
@@ -173,6 +191,14 @@ namespace asteroidss
                 keyPresses();
                 if(even % 4 == 0)asteroid_gen();
                 print();
+
+                // Check if you have lost after the print updates, that way the shown stats are all up to date etc.
+                if (lives <= 0)
+                {
+                    Console.WriteLine("You Lost!, Your highscore was " + score + "!");
+                    System.Threading.Thread.Sleep(3000);
+                    return 0;
+                } 
                 System.Threading.Thread.Sleep(10);
                 even++;
                 for(int i = 0; i < bullets.Length; i++)
@@ -184,6 +210,7 @@ namespace asteroidss
                         {
                             bullets[i].bActive = false;
                             asteroid[op].bActive = false;
+                            score++;
                         }
                     }
                     
@@ -193,14 +220,15 @@ namespace asteroidss
                     update = true;
                     if (bullets[i].y < 0)
                         bullets[i].bActive = false;
-                    if (asteroid[i].y > 16)
+                    if (asteroid[i].y > 16 && asteroid[i].bActive)
                     {
                         asteroid[i].bActive = false;
-                        Console.WriteLine("You Lost!");
-                        return 0;
-                    }
-                        
+                        lives--;
+                    }       
                 }
+
+                // Current high score = 253;
+
             }
         }
     }
