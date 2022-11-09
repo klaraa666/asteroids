@@ -1,4 +1,6 @@
 # asteroids
+A console based videogame where you shoot asteroids as a small spaceship trying to survive for as long as possible.
+
 
 
 #Installation
