@@ -178,18 +178,19 @@ namespace asteroidss
 
         }
 
-        static int Main(string[] args)
+        static int Main(string[] args) // Prog start
         {
             for (int i = 0; i < bullets.Length; i++) // initializing all the objects with the data we want.
             {
                 bullets[i] = new bullet();
                 asteroid[i] = new asteroids();
             }
-            int even = 0;
+
+            int tick = 0; // Game unit of time
             while (true)
             {
                 keyPresses();
-                if(even % 4 == 0)asteroid_gen();
+                if(tick % 4 == 0) asteroid_gen(); // Every 4 ticks create an enemy
                 print();
 
                 // Check if you have lost after the print updates, that way the shown stats are all up to date etc.
@@ -199,8 +200,8 @@ namespace asteroidss
                     System.Threading.Thread.Sleep(3000);
                     return 0;
                 } 
-                System.Threading.Thread.Sleep(10);
-                even++;
+                System.Threading.Thread.Sleep(20);
+                tick++;
                 for(int i = 0; i < bullets.Length; i++)
                 {
                     for (int op = 0; op < asteroid.Length; op++)
@@ -216,7 +217,7 @@ namespace asteroidss
                     
 
                     if (bullets[i].bActive) bullets[i].y -= 1;
-                    if (asteroid[i].bActive && (even % 4 == 0)) asteroid[i].y += 1;
+                    if (asteroid[i].bActive && (tick % 4 == 0)) asteroid[i].y += 1;
                     update = true;
                     if (bullets[i].y < 0)
                         bullets[i].bActive = false;
